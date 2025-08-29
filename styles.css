@@ -1,0 +1,284 @@
+:root {
+  --bg: hsl(220 25% 8%);
+  --surface: hsl(220 25% 12%);
+  --text: hsl(0 0% 0%);
+  --muted: hsl(220 15% 40%);
+  --accent: hsl(220 85% 55%);
+  --success: hsl(220 60% 45%);
+  --danger: hsl(10 80% 50%);
+  --shadow: 0 10px 30px hsl(220 20% 10% / 0.25);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(1200px 800px at 10% -10%, hsl(220 85% 15%), transparent),
+              radial-gradient(900px 700px at 110% 0%, hsl(220 80% 12%), transparent),
+              var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 1.5;
+}
+
+.app {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px clamp(20px, 5vw, 40px) 60px;
+}
+
+h1 {
+  font-size: clamp(1.5rem, 1.2rem + 2.5vw, 2.5rem);
+  margin: 12px 0 24px;
+  letter-spacing: 0.2px;
+  color: var(--text);
+  font-weight: 800;
+}
+
+.wheel-area {
+  position: relative;
+  display: grid;
+  place-items: center;
+  margin-inline: auto;
+  width: min(90vmin, 600px);
+  margin-bottom: 20px;
+}
+
+.wheel {
+  --wheel-size: 0px; /* set dynamically */
+  position: relative;
+  width: min(90vmin, 600px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background: conic-gradient(from -90deg, #eee 0 360deg);
+  border: 12px solid var(--surface);
+  box-shadow: var(--shadow), 0 0 60px hsl(220 85% 55% / 0.1);
+  overflow: hidden;
+  transform: rotate(0deg);
+  transition: transform 3s cubic-bezier(.17,.67,.31,1);
+}
+
+.wheel::after {
+  content: "";
+  position: absolute;
+  inset: 28%;
+  background: radial-gradient(circle at 30% 30%, var(--surface), hsl(220 25% 8%));
+  border-radius: 50%;
+  border: 1px solid hsl(220 25% 20%);
+}
+
+.pointer {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  translate: -50% 0;
+  width: 0;
+  height: 0;
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-bottom: 26px solid var(--accent);
+  filter: drop-shadow(0 4px 8px hsl(220 80% 40% / 0.4));
+  z-index: 10;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1) translate(-50%, 0); }
+  50% { transform: scale(1.05) translate(-50%, 0); }
+}
+
+.spin-button {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  z-index: 5;
+  width: clamp(90px, 20vmin, 150px);
+  height: clamp(90px, 20vmin, 150px);
+  border-radius: 50%;
+  border: 0;
+  color: white;
+  font-weight: 800;
+  letter-spacing: .5px;
+  font-size: clamp(18px, 3vmin, 24px);
+  background: radial-gradient(circle at 30% 30%, hsl(220 95% 65%), hsl(220 85% 55%));
+  box-shadow: 0 12px 24px hsl(220 80% 40% / 0.35), inset 0 -8px 12px hsl(220 80% 34% / 0.55);
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.spin-button:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 16px 32px hsl(220 80% 40% / 0.4), inset 0 -8px 12px hsl(220 80% 34% / 0.55);
+}
+
+.spin-button:active:not(:disabled) {
+  transform: scale(0.95);
+  box-shadow: 0 8px 16px hsl(220 80% 40% / 0.3), inset 0 -8px 12px hsl(220 80% 34% / 0.55);
+}
+
+.spin-button:disabled,
+.spin-button[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  transform-origin: 50% 50%;
+  font-weight: 900;
+  font-size: clamp(15px, 2.4vmin, 20px);
+  color: hsl(0 0% 0%);
+  text-shadow: 0 2px 4px hsl(0 0% 100% / 0.9);
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+
+.status-area {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.selected-history {
+  margin-top: 24px;
+  padding: 20px;
+  background: var(--surface);
+  border-radius: 16px;
+  border: 1px solid hsl(220 25% 25%);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.selected-history h3 {
+  margin: 0 0 16px 0;
+  font-size: clamp(1.1rem, .9rem + 1.3vw, 1.4rem);
+  color: var(--text);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.selected-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  justify-content: center;
+}
+
+.selected-topic {
+  background: var(--accent);
+  color: white;
+  padding: 10px 18px;
+  border-radius: 25px;
+  font-size: clamp(15px, 1.8vmin, 17px);
+  font-weight: 700;
+  box-shadow: 0 4px 8px hsl(220 80% 40% / 0.4);
+  transition: all 0.2s ease;
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.selected-topic:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px hsl(220 80% 40% / 0.5);
+}
+
+.status {
+  min-height: 28px;
+  font-size: clamp(18px, 2.2vmin, 20px);
+  color: var(--text);
+  font-weight: 700;
+  padding: 12px 20px;
+  background: var(--surface);
+  border-radius: 12px;
+  border: 1px solid hsl(220 25% 25%);
+  display: inline-block;
+  box-shadow: var(--shadow);
+}
+
+.legend {
+  margin-top: 24px;
+  background: var(--surface);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 20px;
+  border: 1px solid hsl(220 25% 25%);
+}
+
+.legend h2 {
+  margin: 0 0 10px 0;
+  font-size: clamp(1.1rem, .9rem + 1.3vw, 1.3rem);
+  color: var(--text);
+  font-weight: 700;
+}
+
+.legend-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 8px 14px;
+  padding: 0;
+  margin: 0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid hsl(220 25% 25%);
+  color: var(--text);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.legend-item:hover {
+  background: hsl(220 25% 15%);
+  border-color: hsl(220 25% 35%);
+  transform: translateY(-1px);
+}
+
+.legend-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid hsl(0 0% 0% / 0.15);
+}
+
+.legend-item.removed {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+@media (max-width: 480px) {
+  .legend-list { grid-template-columns: 1fr; }
+}
+
+

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Spin the Wheel: Technical Topics</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1>Spin the Wheel: Technical Topics</h1>
+
+      <section class="wheel-area" aria-label="Spin the wheel area">
+        <div class="pointer" aria-hidden="true"></div>
+        <div id="wheel" class="wheel" role="img" aria-label="Topic wheel">
+          <div id="labels" class="labels" aria-hidden="true"></div>
+          <button id="spinButton" class="spin-button" type="button" aria-live="polite">
+            Spin
+          </button>
+        </div>
+      </section>
+
+      <section class="status-area">
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+        <div id="selectedHistory" class="selected-history" aria-live="polite"></div>
+      </section>
+
+      <section class="legend" aria-labelledby="legend-title">
+        <h2 id="legend-title">Topics</h2>
+        <ul id="legendList" class="legend-list" aria-live="polite"></ul>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+  </html>
+
+

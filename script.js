@@ -70,7 +70,7 @@ function renderLabels(active) {
     label.className = 'label';
     label.textContent = active[i].name;
     // Place toward rim, keep text upright
-    label.style.transform = `rotate(${centerAngle}deg) translateY(calc(-1 * (var(--wheel-size) / 2 - 52px))) rotate(${-centerAngle}deg)`;
+    label.style.transform = `rotate(${centerAngle}deg) translateY(calc(-1 * (var(--wheel-size) / 2 - 88px))) rotate(${-centerAngle}deg)`;
     labelsEl.appendChild(label);
   }
 }
